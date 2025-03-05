@@ -1,0 +1,163 @@
+// Mensagem inicial de boas-vindas
+string mensagemDeBoasVindas = "Boas vindas ao Screen Sound";
+
+// Dicionário para armazenar bandas e suas notas
+Dictionary<string, List<int>> bandasRegistradas = new Dictionary<string, List<int>>();
+
+// Adiciona bandas registradas com notas (exemplo inicial)
+bandasRegistradas.Add("Linkin Park", new List<int> { 10, 8, 6 });
+bandasRegistradas.Add("The Beatles", new List<int>());
+
+// Função para exibir o logo do programa
+void ExibirLogo()
+{
+    Console.WriteLine(@"  
+    ░██████╗░█████╗░██████╗░███████╗███████╗███╗░░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░
+    ██╔════╝██╔══██╗██╔══██╗██╔════╝██╔════╝████╗░██║  ██╔════╝██╔══██╗██║░░░██║████╗░██║██╔══██╗
+    ╚█████╗░██║░░╚═╝██████╔╝█████╗░░█████╗░░██╔██╗██║  ╚█████╗░██║░░██║██║░░░██║██╔██╗██║██║░░██║
+    ░╚═══██╗██║░░██╗██╔══██╗██╔══╝░░██╔══╝░░██║╚████║  ░╚═══██╗██║░░██║██║░░░██║██║╚████║██║░░██║
+    ███████╗╚█████╔╝██║░░██║███████╗███████╗██║░╚███║  ██████╔╝╚█████╔╝╚██████╔╝██║░╚███║██████╔╝
+    ╚═════╝░░╚════╝░╚═╝░░╚═╝╚══════╝╚══════╝╚═╝░░╚══╝  ╚═════╝░░╚════╝░░╚═════╝░╚═╝░░╚══╝╚═════╝░
+    ");
+    Console.WriteLine(mensagemDeBoasVindas); // Exibe a mensagem de boas-vindas
+}
+
+// Função que exibe o menu de opções
+void ExibirOpcoesDoMenu()
+{
+    ExibirLogo(); // Exibe o logo e a mensagem de boas-vindas
+    Console.WriteLine("\nDigite 1 para registrar uma banda");
+    Console.WriteLine("Digite 2 para mostrar todas as bandas");
+    Console.WriteLine("Digite 3 para avaliar uma banda");
+    Console.WriteLine("Digite 4 para exibir a média de uma banda");
+    Console.WriteLine("Digite -1 para sair");
+
+    Console.Write("\nDigite a sua opção: ");
+    string opcaoEscolhida = Console.ReadLine()!;
+    int opcaoEscolhidaNumerica = int.Parse(opcaoEscolhida); // Converte a opção para número inteiro
+
+    // Processa a escolha do usuário através de um switch
+    switch (opcaoEscolhidaNumerica)
+    {
+        case 1:
+            RegistrarBanda(); // Chama a função para registrar uma banda
+            break;
+        case 2:
+            MostrarBandasRegistradas(); // Exibe todas as bandas registradas
+            break;
+        case 3:
+            AvaliarUmaBanda(); // Avalia uma banda
+            break;
+        case 4:
+            ExibirMedia(); // Exibe a média das notas de uma banda
+            break;
+        case -1:
+            Console.WriteLine("Tchau tchau :)"); // Sai do programa
+            break;
+        default:
+            Console.WriteLine("Opção inválida"); // Mensagem para opção inválida
+            break;
+    }
+}
+
+// Função que registra uma nova banda
+void RegistrarBanda()
+{
+    Console.Clear(); // Limpa o console
+    ExibirTituloDaOpcao("Registro das bandas"); // Exibe o título da opção
+    Console.Write("Digite o nome da banda que deseja registrar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+    bandasRegistradas.Add(nomeDaBanda, new List<int>()); // Adiciona a banda ao dicionário com uma lista vazia de notas
+    Console.WriteLine($"A banda {nomeDaBanda} foi registrada com sucesso!");
+    Thread.Sleep(2000); // Pausa de 2 segundos
+    Console.Clear(); // Limpa o console
+    ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+}
+
+// Função que exibe todas as bandas registradas
+void MostrarBandasRegistradas()
+{
+    Console.Clear(); // Limpa o console
+    ExibirTituloDaOpcao("Exibindo todas as bandas registradas"); // Exibe o título da opção
+
+    // Itera sobre as bandas registradas e exibe o nome de cada uma
+    foreach (string banda in bandasRegistradas.Keys)
+    {
+        Console.WriteLine($"Banda: {banda}");
+    }
+
+    Console.WriteLine("\nDigite uma tecla para voltar ao menu principal");
+    Console.ReadKey(); // Aguarda o pressionamento de uma tecla
+    Console.Clear(); // Limpa o console
+    ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+}
+
+// Função que exibe um título formatado com asteriscos
+void ExibirTituloDaOpcao(string titulo)
+{
+    int quantidadeDeLetras = titulo.Length;
+    string asteriscos = string.Empty.PadLeft(quantidadeDeLetras, '*'); // Cria uma linha de asteriscos do mesmo tamanho do título
+    Console.WriteLine(asteriscos); // Exibe a linha de asteriscos
+    Console.WriteLine(titulo); // Exibe o título
+    Console.WriteLine(asteriscos + "\n"); // Exibe outra linha de asteriscos
+}
+
+// Função que permite ao usuário avaliar uma banda
+void AvaliarUmaBanda()
+{
+    Console.Clear(); // Limpa o console
+    ExibirTituloDaOpcao("Avaliar banda"); // Exibe o título da opção
+    Console.Write("Digite o nome da banda que deseja avaliar: ");
+    string nomeDaBanda = Console.ReadLine()!;
+
+    // Verifica se a banda está registrada
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        Console.WriteLine($"Qual a nota que a banda {nomeDaBanda} merece: ");
+        int nota = int.Parse(Console.ReadLine()!); // Lê a nota fornecida pelo usuário
+        bandasRegistradas[nomeDaBanda].Add(nota); // Adiciona a nota à lista da banda
+        Console.WriteLine($"\nA nota {nota} foi registrada com sucesso para a banda {nomeDaBanda}");
+        Thread.Sleep(4000); // Pausa de 4 segundos
+        Console.Clear(); // Limpa o console
+        ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+    }
+    else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} nao foi encontrada!"); // Mensagem de erro
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey(); // Aguarda o pressionamento de uma tecla
+        Console.Clear(); // Limpa o console
+        ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+    }
+}
+
+// Função que exibe a média das notas de uma banda
+void ExibirMedia()
+{
+    Console.Clear(); // Limpa o console
+    ExibirTituloDaOpcao("Exibir média da banda"); // Exibe o título da opção
+    Console.Write("Digite o nome da banda que deseja exibir a média: ");
+    string nomeDaBanda = Console.ReadLine()!;
+
+    // Verifica se a banda está registrada
+    if (bandasRegistradas.ContainsKey(nomeDaBanda))
+    {
+        List<int> notasDaBanda = bandasRegistradas[nomeDaBanda]; // Obtém as notas da banda
+        Console.WriteLine($"\nA média da banda {nomeDaBanda} é {notasDaBanda.Average()}"); // Exibe a média
+        Console.WriteLine("Digite uma tecla para voltar ao menu principal");
+        Console.ReadKey(); // Aguarda o pressionamento de uma tecla
+        Console.Clear(); // Limpa o console
+        ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+    }
+    else
+    {
+        Console.WriteLine($"\nA banda {nomeDaBanda} não foi encontrada."); // Mensagem de erro
+        Console.WriteLine("Digite ma tecla para voltar ao menu principal.");
+        Console.ReadKey(); // Aguarda o pressionamento de uma tecla
+        Console.Clear(); // Limpa o console
+        ExibirOpcoesDoMenu(); // Exibe o menu principal novamente
+    }
+}
+
+// Inicia o programa exibindo o menu principal
+ExibirOpcoesDoMenu();
